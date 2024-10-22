@@ -1,0 +1,29 @@
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" navigatingTo="navigatingTo" class="page">
+    <ActionBar title="Choose Your Adventure" class="action-bar" />
+    
+    <ScrollView>
+        <StackLayout class="p-4">
+            <StackLayout visibility="{{ !storyStarted ? 'visible' : 'collapsed' }}">
+                <TextField hint="Enter your story prompt..." text="{{ userPrompt }}" class="input mb-4 p-4" />
+                <Button text="Start Adventure" tap="{{ startStory }}" class="btn-primary mb-4" isEnabled="{{ !loading }}" />
+            </StackLayout>
+
+            <ActivityIndicator busy="{{ loading }}" class="m-4" />
+
+            <StackLayout visibility="{{ storyStarted ? 'visible' : 'collapsed' }}">
+                <Label text="{{ currentStoryText }}" textWrap="true" class="story-text mb-4" />
+                
+                <Repeater items="{{ currentPaths }}">
+                    <Repeater.itemTemplate>
+                        <StackLayout class="story-path m-2 p-4" tap="{{ $parent.selectPath }}">
+                            <Image src="{{ imageUrl }}" class="story-image mb-2" loadMode="async" stretch="aspectFill" />
+                            <Label text="{{ choice }}" textWrap="true" class="story-text" />
+                        </StackLayout>
+                    </Repeater.itemTemplate>
+                </Repeater>
+            </StackLayout>
+
+            <Label text="{{ error }}" class="text-danger" visibility="{{ error ? 'visible' : 'collapsed' }}" textWrap="true" />
+        </StackLayout>
+    </ScrollView>
+</Page>
